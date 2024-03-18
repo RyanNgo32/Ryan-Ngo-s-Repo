@@ -1,1 +1,192 @@
+/*
+ * Class: CMSC203 32689
+ * Instructor: Professor Grinberg
+ * Description: (Give a brief description for each Class)
+ * Due: 3/18/2024
+ * Platform/compiler: Eclipse
+ * I pledge that I have completed the programming  assignment independently. 
+*  I have not copied the code from a student or any source. 
+*  I have not given my code to any student.
+*  Print your Name here: Ryan Ngo
+*/
+public class CryptoManager {
+	
+	private static final char LOWER_RANGE = ' ';
+	private static final char UPPER_RANGE = '_';
+	private static final int RANGE = UPPER_RANGE - LOWER_RANGE + 1;
+
+	/**
+	 * This method determines if a string is within the allowable bounds of ASCII codes 
+	 * according to the LOWER_RANGE and UPPER_RANGE characters
+	 * @param plainText a string to be encrypted, if it is within the allowable bounds
+	 * @return true if all characters are within the allowable bounds, false if any character is outside
+	 */
+	public static boolean isStringInBounds (String plainText) {
+		
+		
+		for(int i = 0; i < plainText.length(); i++) //runs through length of plaintext
+		{
+			if(plainText.charAt(i) > UPPER_RANGE || plainText.charAt(i) < LOWER_RANGE) //if its outside of range return false 
+			{
+				return false;
+			}
+		}
+		return true; //returns true
+	}
+	
+	
+	
+	
+	public static String caesarEncryption(String plainText, int key) {
+		
+		if(!isStringInBounds(plainText)) //if not in bounds will return a error statement
+			{
+				return"The selected string is not in bounds, Try again.";
+			}
+		
+		String encryptedText = "";
+		char encryptedCharacter;
+		
+		
+		
+		for(int i = 0; i < plainText.length();i++) //runs through length of plaintext
+		{
+			
+			char CharAT = plainText.charAt(i);   // create char variable for char at that value 
+			
+			if(key > RANGE || key < RANGE)
+			{
+			key = key % RANGE; 
+			}
+			
+			encryptedCharacter = (char) (CharAT + key);   // cast to make char, add key and charAt together 
+					
+			if(encryptedCharacter > UPPER_RANGE)  // greater than the range it will subtract to make it in range
+			{
+				encryptedCharacter -= RANGE;
+			}
+			encryptedText = encryptedText + encryptedCharacter; // add to encrypted char into text 
+				
+		}
+		return encryptedText; //return
+	}
+		
+		
+		
+		
+	
+		
+	
+	
+	/**
+	 * Encrypts a string according the Bellaso Cipher.  Each character in plainText is offset 
+	 * according to the ASCII value of the corresponding character in bellasoStr, which is repeated
+	 * to correspond to the length of plainText
+	 * @param plainText an uppercase string to be encrypted.
+	 * @param bellasoStr an uppercase string that specifies the offsets, character by character.
+	 * @return the encrypted string
+	 */
+	public static String bellasoEncryption (String plainText, String bellasoStr) {
+		
+		
+		String encryptedText =""; //empty string 
+		
+		
+		while(bellasoStr.length() < plainText.length()) //if key word is short will add to itself until it is equal length
+			{
+				bellasoStr += bellasoStr; //adds bellasoStr to itself to make it longer
+			}  
+			
+		for(int i = 0; i < plainText.length();i++) //runs through length of plaintext
+		{
+				
+			char CharAt = bellasoStr.charAt(i);  // assign char variable to bellasoStr CharAt
+				
+			char newChar = (char) (plainText.charAt(i) + CharAt);  //char, add character value and bellasoStr value together
+				
+			while(newChar > UPPER_RANGE) // if greater than the upper range subtract by range to keep it inside range
+			{
+				newChar -= RANGE; 
+			}
+				
+			encryptedText = encryptedText + newChar; // add new char into encryptedText
+		}
+		return encryptedText; //returns
+	}
+	
+
+	
+	/**
+	 * Decrypts a string according to the Caesar Cipher.  The integer key specifies an offset
+	 * and each character in encryptedText is replaced by the character \"offset\" characters before it.
+	 * This is the inverse of the encryptCaesar method.
+	 * @param encryptedText an encrypted string to be decrypted.
+	 * @param key an integer that specifies the offset of each character
+	 * @return the plain text string
+	 */
+	public static String caesarDecryption (String encryptedText, int key) {
+		
+		String decryptedText = "";
+		
+		char decryptedCharacter = 0;
+		
+		
+		for(int i = 0; i < encryptedText.length();i++) //runs through length of encryptedText
+		{
+			char CharAT = encryptedText.charAt(i);  // create char variable for char at that value 
+			
+			if(key > RANGE || key < RANGE)
+			{
+			key = key % RANGE; 
+			}
+			
+			decryptedCharacter = (char) (CharAT - key);   // cast add key and charAt
+					
+			if(decryptedCharacter < LOWER_RANGE)  // if less than LOWER_RANGE
+			{
+				decryptedCharacter += RANGE;       //ADD RANGE value to decryptedCharacter
+			}
+			decryptedText += decryptedCharacter; //adds character to TEXT 
+				
+		}
+		return decryptedText; // Returns text 
+		 
+	}
+	
+	/**
+	 * Decrypts a string according the Bellaso Cipher.  Each character in encryptedText is replaced by
+	 * the character corresponding to the character in bellasoStr, which is repeated
+	 * to correspond to the length of plainText.  This is the inverse of the encryptBellaso method.
+	 * @param encryptedText an uppercase string to be encrypted.
+	 * @param bellasoStr an uppercase string that specifies the offsets, character by character.
+	 * @return the decrypted string
+	 */
+	public static String bellasoDecryption(String encryptedText, String bellasoStr) {
+		
+		String decryptedText =""; //empty string 
+		
+		while(bellasoStr.length() < encryptedText.length()) // while bellaso is to short of length compared to encrypted text
+		{
+			bellasoStr += bellasoStr; //adds bellasoStr together to concatinate to make it longer 
+		}  
+		
+			
+		for(int i = 0; i < encryptedText.length();i++) //runs through length of encryptedText
+		{
+ 	
+				
+			char CharAt = bellasoStr.charAt(i); // assigns char at to bellaso char of i value 
+				
+			int newChar = encryptedText.charAt(i) - CharAt; // assigns new char to encryptedText char at value of i 
+				
+			while(newChar < LOWER_RANGE) //if less than the lower range it will add range again to make it in range 
+			{
+				newChar += RANGE; 
+			}
+				
+			decryptedText =  decryptedText +(char)(newChar); //adds values into decrypted text 
+		}
+		return decryptedText;  //return text
+	}
+}
 
