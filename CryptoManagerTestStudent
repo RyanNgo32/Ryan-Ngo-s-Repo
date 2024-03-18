@@ -1,0 +1,58 @@
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+public class CryptoManagerTestStudent {
+	CryptoManager cryptoManager;
+
+	@BeforeEach
+	public void setUp() throws Exception {
+	}
+
+	@AfterEach
+	public void tearDown() throws Exception {
+	}
+
+	@Test
+	public void testStringInBounds() {
+		assertTrue(CryptoManager.isStringInBounds("BLUE"));
+		assertTrue(CryptoManager.isStringInBounds("AMAZING"));
+		assertFalse(CryptoManager.isStringInBounds("LEGO}"));
+		
+	}
+
+	@Test
+	public void testEncryptCaesar() {
+		assertEquals("KHOOR", CryptoManager.caesarEncryption("HELLO", 3));
+		assertEquals("IGZ", CryptoManager.caesarEncryption("CAT", 6));
+		assertEquals("@KC", CryptoManager.caesarEncryption("DOG", 60));
+		
+	}
+
+	@Test
+	public void testDecryptCaesar() {
+		assertEquals("BUDDAH", CryptoManager.caesarDecryption("FYHHEL", 4));
+		assertEquals("HOTDOG", CryptoManager.caesarDecryption("/6;+6.", 999));
+		assertEquals("CHINESE", CryptoManager.caesarDecryption("/45:1?1", 300));
+	}
+
+	@Test
+	public void testEncryptBellaso() {
+		assertEquals("KF OP", CryptoManager.bellasoEncryption("HELLO", "CAT"));
+		assertEquals(" PRP", CryptoManager.bellasoEncryption("JAIL", "VOID"));
+		assertEquals("V^B'SQ", CryptoManager.bellasoEncryption("FRANCE", "PLAY"));
+
+	}
+
+	@Test
+	public void testDecryptBellaso() {
+		assertEquals("DILLY", CryptoManager.bellasoDecryption("[NXO(", "WELCOME"));
+		assertEquals("BUNSBUNS", CryptoManager.bellasoDecryption("P^QXI*'&", "NICEGUYS"));
+		
+
+	}
+
+}
